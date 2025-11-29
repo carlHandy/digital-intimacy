@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronRight, ChevronLeft, Smartphone, Lock, Heart, Shield, AlertTriangle, User, Users, MessageCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ChevronRight, ChevronLeft, Smartphone, Lock, Heart, Shield, AlertTriangle, User, MessageCircle } from 'lucide-react';
 
 const StandardSlideWrapper = ({ children }) => (
   <div className="z-10 w-full max-w-6xl mx-auto px-4 md:px-8">
