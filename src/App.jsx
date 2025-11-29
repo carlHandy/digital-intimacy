@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, ChevronLeft, Smartphone, Lock, Heart, Shield, AlertTriangle, User, Users, MessageCircle } from 'lucide-react';
 
+const StandardSlideWrapper = ({ children }) => (
+  <div className="z-10 w-full max-w-6xl mx-auto px-4 md:px-8">
+    {children}
+  </div>
+);
+
 const SlideDeck = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [step, setStep] = useState(0);
@@ -165,12 +171,12 @@ const SlideDeck = () => {
     <div className={`w-full h-screen ${current.bg} transition-colors duration-700 ease-in-out flex flex-col items-center justify-center overflow-hidden relative font-sans select-none`}>
 
       {/* Navigation Hint */}
-      <div className="absolute bottom-8 text-white/30 text-xs md:text-sm animate-pulse px-4 text-center">
+      <div className="absolute bottom-8 text-white/30 text-xs md:text-sm animate-pulse px-4 text-center z-30">
         Press Right Arrow or Tap Screen to Advance
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute top-0 left-0 h-1 bg-white/20 w-full">
+      <div className="absolute top-0 left-0 h-1 bg-white/20 w-full z-30">
         <div
           className="h-full bg-blue-500 transition-all duration-500"
           style={{ width: `${((currentSlide) / (slides.length - 1)) * 100}%` }}
@@ -180,11 +186,11 @@ const SlideDeck = () => {
       {/* Touch Area for Mobile (Transparent Overlay) */}
       <div className="absolute inset-0 z-0 md:hidden" onClick={nextStep}></div>
 
-      {/* SLIDE RENDERERS - Container adjustments for padding */}
-      <div className="z-10 w-full max-w-6xl mx-auto px-4 md:px-8">
+      {/* SLIDE RENDERERS */}
 
-        {/* TITLE SLIDE */}
-        {current.type === 'title' && (
+      {/* TITLE SLIDE */}
+      {current.type === 'title' && (
+        <StandardSlideWrapper>
           <div className="text-center p-4 md:p-8">
             <div className="mb-4 md:mb-6 animate-bounce text-blue-400">
               <Smartphone className="mx-auto w-12 h-12 md:w-16 md:h-16" />
@@ -196,10 +202,12 @@ const SlideDeck = () => {
               {current.sub}
             </p>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* STORY SLIDE */}
-        {current.type === 'story' && (
+      {/* STORY SLIDE */}
+      {current.type === 'story' && (
+        <StandardSlideWrapper>
           <div className="text-center">
             <div className={`transition-all duration-700 transform ${step >= 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <h2 className={current.content[0].style}>{current.content[0].text}</h2>
@@ -208,10 +216,12 @@ const SlideDeck = () => {
               <h3 className={current.content[1].style}>{current.content[1].text}</h3>
             </div>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* CONTRAST SLIDE (Bed vs Pixels) */}
-        {current.type === 'contrast' && (
+      {/* CONTRAST SLIDE (Bed vs Pixels) */}
+      {current.type === 'contrast' && (
+        <StandardSlideWrapper>
           <div className="text-center px-4">
             <div className={`transition-all duration-1000 absolute inset-0 flex items-center justify-center ${step === 0 ? 'opacity-100 blur-0' : 'opacity-20 blur-sm scale-90'}`}>
               <h2 className={current.content[0].style}>{current.content[0].text}</h2>
@@ -221,10 +231,12 @@ const SlideDeck = () => {
               {step >= 1 && <h2 className={current.content[1].style}>{current.content[1].text}</h2>}
             </div>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* IMPACT SLIDE (Violation) */}
-        {current.type === 'impact' && (
+      {/* IMPACT SLIDE (Violation) */}
+      {current.type === 'impact' && (
+        <StandardSlideWrapper>
           <div className="flex flex-col items-center justify-center p-4 md:p-8 text-center">
             <div className={`transition-all duration-500 ${step >= 0 ? 'opacity-100' : 'opacity-0'}`}>
               <p className={current.content[0].style}>{current.content[0].text}</p>
@@ -236,10 +248,12 @@ const SlideDeck = () => {
               <h1 className={current.content[2].style}>{current.content[2].text}</h1>
             </div>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* STATEMENT SLIDE (Digital Intimacy) */}
-        {current.type === 'statement' && (
+      {/* STATEMENT SLIDE (Digital Intimacy) */}
+      {current.type === 'statement' && (
+        <StandardSlideWrapper>
           <div className="flex flex-col items-start px-2 md:px-24">
             <div className={`transition-all duration-700 ${step >= 0 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <p className={current.content[0].style}>{current.content[0].text}</p>
@@ -253,26 +267,28 @@ const SlideDeck = () => {
               <span className="text-2xl md:text-4xl text-pink-300 font-bold">Meaningful.</span>
             </div>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* SPLIT SLIDE (Desire vs Protection) */}
-        {current.type === 'split' && (
-          <div className="flex flex-col md:flex-row w-full h-[80vh] md:h-full">
-            <div className={`flex-1 flex flex-col items-center justify-center bg-black/20 p-4 transition-all duration-700 ${step >= 0 ? 'opacity-100' : 'opacity-0'}`}>
-              <Heart className="text-yellow-500 mb-4 animate-pulse w-12 h-12 md:w-16 md:h-16" />
-              <h2 className="text-3xl md:text-5xl font-bold text-yellow-400">{current.left.text}</h2>
-              <p className="text-lg md:text-xl text-yellow-100 mt-2 text-center">{current.left.sub}</p>
-            </div>
-            <div className={`flex-1 flex flex-col items-center justify-center bg-white/5 p-4 transition-all duration-700 ${step >= 1 ? 'opacity-100' : 'opacity-10'}`}>
-              <Lock className="text-gray-400 mb-4 w-12 h-12 md:w-16 md:h-16" />
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-400">{current.right.text}</h2>
-              <p className="text-lg md:text-xl text-gray-500 mt-2 text-center">{current.right.sub}</p>
-            </div>
+      {/* SPLIT SLIDE (Desire vs Protection)*/}
+      {current.type === 'split' && (
+        <div className="flex flex-col md:flex-row w-full h-full z-10">
+          <div className={`flex-1 flex flex-col items-center justify-center bg-black/20 p-4 transition-all duration-700 ${step >= 0 ? 'opacity-100' : 'opacity-0'}`}>
+            <Heart className="text-yellow-500 mb-4 animate-pulse w-12 h-12 md:w-16 md:h-16" />
+            <h2 className="text-3xl md:text-5xl font-bold text-yellow-400">{current.left.text}</h2>
+            <p className="text-lg md:text-xl text-yellow-100 mt-2 text-center">{current.left.sub}</p>
           </div>
-        )}
+          <div className={`flex-1 flex flex-col items-center justify-center bg-white/5 p-4 transition-all duration-700 ${step >= 1 ? 'opacity-100' : 'opacity-10'}`}>
+            <Lock className="text-gray-400 mb-4 w-12 h-12 md:w-16 md:h-16" />
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-400">{current.right.text}</h2>
+            <p className="text-lg md:text-xl text-gray-500 mt-2 text-center">{current.right.sub}</p>
+          </div>
+        </div>
+      )}
 
-        {/* CENTERED ICON SLIDE (Toolkit) */}
-        {current.type === 'centered' && (
+      {/* CENTERED ICON SLIDE (Toolkit) */}
+      {current.type === 'centered' && (
+        <StandardSlideWrapper>
           <div className="text-center p-4 md:p-8">
             <div className="animate-bounce flex justify-center">
               {current.icon}
@@ -280,10 +296,12 @@ const SlideDeck = () => {
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4">{current.text}</h2>
             <p className="text-xl md:text-2xl text-emerald-200">{current.sub}</p>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* LIST SLIDE (Consent) */}
-        {current.type === 'list' && (
+      {/* LIST SLIDE (Consent) */}
+      {current.type === 'list' && (
+        <StandardSlideWrapper>
           <div className="max-w-4xl w-full mx-auto">
             <h2 className="text-2xl md:text-4xl text-blue-300 font-bold mb-8 md:mb-12 border-b border-blue-800 pb-4">{current.title}</h2>
             <div className="space-y-4 md:space-y-6">
@@ -299,10 +317,12 @@ const SlideDeck = () => {
               ))}
             </div>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* VISUAL LIST (Hygiene) */}
-        {current.type === 'visual' && (
+      {/* VISUAL LIST (Hygiene) */}
+      {current.type === 'visual' && (
+        <StandardSlideWrapper>
           <div className="max-w-4xl w-full mx-auto">
             <h2 className="text-2xl md:text-4xl text-gray-300 font-bold mb-8 md:mb-12">{current.title}</h2>
             <div className="grid gap-4 md:gap-8">
@@ -320,10 +340,12 @@ const SlideDeck = () => {
               ))}
             </div>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* WARNING SLIDE (What if) */}
-        {current.type === 'warning' && (
+      {/* WARNING SLIDE (What if) */}
+      {current.type === 'warning' && (
+        <StandardSlideWrapper>
           <div className="text-center px-4">
             <AlertTriangle className="text-orange-500 mx-auto mb-6 md:mb-8 w-16 h-16 md:w-20 md:h-20" />
             <h2 className="text-2xl md:text-4xl font-bold text-orange-100 mb-8 md:mb-12">{current.title}</h2>
@@ -341,10 +363,12 @@ const SlideDeck = () => {
               ))}
             </div>
           </div>
-        )}
+        </StandardSlideWrapper>
+      )}
 
-        {/* FINAL SLIDE */}
-        {current.type === 'final' && (
+      {/* FINAL SLIDE */}
+      {current.type === 'final' && (
+        <StandardSlideWrapper>
           <div className="flex items-center justify-center flex-wrap">
             <div className={`transition-all duration-1000 transform ${step >= 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
               <span className={current.content[0].style}>{current.content[0].text}</span>
@@ -356,8 +380,8 @@ const SlideDeck = () => {
               <span className={current.content[2].style}>{current.content[2].text}</span>
             </div>
           </div>
-        )}
-      </div>
+        </StandardSlideWrapper>
+      )}
 
       {/* Navigation Controls (Visible on hover or touch) */}
       <div className="absolute bottom-8 right-8 flex gap-4 opacity-50 hover:opacity-100 transition-opacity z-20">
